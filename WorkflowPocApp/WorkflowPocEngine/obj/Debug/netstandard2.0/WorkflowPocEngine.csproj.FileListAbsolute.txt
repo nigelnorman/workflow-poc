@@ -1,6 +1,0 @@
-C:\Users\nigel.norman\source\repos\WorkflowPocApp\WorkflowPocEngine\bin\Debug\netstandard2.0\WorkflowPocEngine.deps.json
-C:\Users\nigel.norman\source\repos\WorkflowPocApp\WorkflowPocEngine\bin\Debug\netstandard2.0\WorkflowPocEngine.dll
-C:\Users\nigel.norman\source\repos\WorkflowPocApp\WorkflowPocEngine\obj\Debug\netstandard2.0\WorkflowPocEngine.csprojAssemblyReference.cache
-C:\Users\nigel.norman\source\repos\WorkflowPocApp\WorkflowPocEngine\obj\Debug\netstandard2.0\WorkflowPocEngine.csproj.CoreCompileInputs.cache
-C:\Users\nigel.norman\source\repos\WorkflowPocApp\WorkflowPocEngine\obj\Debug\netstandard2.0\WorkflowPocEngine.AssemblyInfoInputs.cache
-C:\Users\nigel.norman\source\repos\WorkflowPocApp\WorkflowPocEngine\obj\Debug\netstandard2.0\WorkflowPocEngine.AssemblyInfo.cs
