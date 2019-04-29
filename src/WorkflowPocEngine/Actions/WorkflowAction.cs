@@ -10,5 +10,6 @@ namespace WorkflowPocEngine.Actions
         Start = 1,
         End = 2,
         Cancel = 3,
+        Pause = 4,
     }
 }

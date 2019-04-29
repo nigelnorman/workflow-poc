@@ -10,5 +10,6 @@ namespace WorkflowPocEngine.Statuses
         ToDo = 1,
         Doing = 2,
         Done = 3,
+        Waiting = 4,
     }
 }

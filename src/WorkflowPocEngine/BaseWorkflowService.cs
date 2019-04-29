@@ -23,9 +23,16 @@ namespace WorkflowPocEngine
 
             machine.Configure(WorkflowStatus.ToDo)
                 .Permit(WorkflowAction.Start, WorkflowStatus.Doing)
+                .Permit(WorkflowAction.Pause, WorkflowStatus.Waiting)
                 .Permit(WorkflowAction.Cancel, WorkflowStatus.Done);
 
             machine.Configure(WorkflowStatus.Doing)
+                .Permit(WorkflowAction.End, WorkflowStatus.Done)
+                .Permit(WorkflowAction.Pause, WorkflowStatus.Waiting)
+                .Permit(WorkflowAction.Cancel, WorkflowStatus.Done);
+
+            machine.Configure(WorkflowStatus.Waiting)
+                .Permit(WorkflowAction.Start, WorkflowStatus.Doing)
                 .Permit(WorkflowAction.End, WorkflowStatus.Done)
                 .Permit(WorkflowAction.Cancel, WorkflowStatus.Done);
 
