@@ -5,7 +5,7 @@ using WorkflowPocEngine.Statuses;
 
 namespace WorkflowPocEngine
 {
-    public class BaseWorkflowService<TStatus, TAction>
+    public class BaseWorkflowService
     {
         static BaseWorkflowService()
         {
@@ -13,7 +13,7 @@ namespace WorkflowPocEngine
         }
 
         // builds a state machine instanced at the current workflow state
-        public StateMachine<WorkflowStatus, WorkflowAction> BuildMachine(WorkflowStatus status)
+        public static StateMachine<WorkflowStatus, WorkflowAction> BuildMachine(WorkflowStatus status)
         {
             
             var machine = new StateMachine<WorkflowStatus, WorkflowAction>(
@@ -21,7 +21,7 @@ namespace WorkflowPocEngine
                 s => status = s
                 );
 
-            machine.OnTransitioned(t => this.LogTransition(t));
+            machine.OnTransitioned(t => LogTransition(t));
 
             machine.Configure(WorkflowStatus.ToDo)
                 .Permit(WorkflowAction.Start, WorkflowStatus.Doing)
@@ -44,33 +44,33 @@ namespace WorkflowPocEngine
             return machine;
         }
 
-        public void ProcessCommenceWorkAction(WorkflowStatus status)
+        public static void ProcessCommenceWorkAction(WorkflowStatus status)
         {
-            this.ProcessAction(status, WorkflowAction.Start);
+            ProcessAction(status, WorkflowAction.Start);
         }
 
-        public void ProcessPauseWorkAction(WorkflowStatus status)
+        public static void ProcessPauseWorkAction(WorkflowStatus status)
         {
-            this.ProcessAction(status, WorkflowAction.Pause);
+            ProcessAction(status, WorkflowAction.Pause);
         }
 
-        public void ProcessEndWorkAction(WorkflowStatus status)
+        public static void ProcessEndWorkAction(WorkflowStatus status)
         {
-            this.ProcessAction(status, WorkflowAction.End);
+            ProcessAction(status, WorkflowAction.End);
         }
 
-        public void ProcessCancellationAction(WorkflowStatus status)
+        public static void ProcessCancellationAction(WorkflowStatus status)
         {
-            this.ProcessAction(status, WorkflowAction.Cancel);
+            ProcessAction(status, WorkflowAction.Cancel);
         }
 
-        private void ProcessAction(WorkflowStatus currentStatus, WorkflowAction action)
+        private static void ProcessAction(WorkflowStatus currentStatus, WorkflowAction action)
         {
-            var machine = this.BuildMachine(currentStatus);
+            var machine = BuildMachine(currentStatus);
             machine.Fire(action);
         }
 
-        private void LogTransition(StateMachine<WorkflowStatus, WorkflowAction>.Transition transition)
+        private static void LogTransition(StateMachine<WorkflowStatus, WorkflowAction>.Transition transition)
         {
             Console.WriteLine($"Workflow transitioned from {transition.Source} => {transition.Destination} via {transition.Trigger}.");
         }
