@@ -45,5 +45,15 @@ namespace WorkflowPocApp
                 Console.ReadLine();
             }
         }
+
+        static void PopNextWorkflow()
+        {
+
+        }
+
+        static void EvaluateWorkflowIsReadyForTransition()
+        {
+
+        }
     }
 }
