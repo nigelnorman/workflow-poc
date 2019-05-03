@@ -23,17 +23,27 @@ namespace WorkflowPocApp
             Console.WriteLine($"current status: {model.StatusDisplay}");
             Console.ReadLine();
 
-            while(model.StatusDisplay != "done")
-            {
-                ProcessModel(model);
-                Console.ReadLine();
-            }
+            // assign model
+            ProcessModel(model);
+            Console.ReadLine();
+            // commence work
+            ProcessModel(model);
+            Console.ReadLine();
+            // waiting on 3rd party
+            ProcessModel(model, true);
+            Console.ReadLine();
+            // compiling results
+            ProcessModel(model);
+            Console.ReadLine();
+            // completion
+            ProcessModel(model);
+            Console.ReadLine();
 
             Console.WriteLine("sequence completed.");
             Console.ReadLine();
         }
 
-        static void ProcessModel(GenericExampleModel model)
+        static void ProcessModel(GenericExampleModel model, bool pauseExecution = false)
         {
             var nodes = DeserializeNodes();
 
@@ -55,7 +65,7 @@ namespace WorkflowPocApp
                 var ready = EvaluateWorkflowIsReadyForTransition(model);
                 if (ready)
                 {
-                    var success = PopNextWorkflow((WorkflowState)currentNode["state"].ToObject<int>());
+                    var success = PopNextWorkflow((WorkflowState)currentNode["state"].ToObject<int>(), pauseExecution);
 
                     if (success)
                     {
@@ -140,7 +150,7 @@ namespace WorkflowPocApp
             return nodes;
         }
 
-        static bool PopNextWorkflow(WorkflowState state)
+        static bool PopNextWorkflow(WorkflowState state, bool pauseExecution = false)
         {
             var success = false;
             switch (state)
@@ -150,11 +160,19 @@ namespace WorkflowPocApp
                     success = true;
                     break;
                 case WorkflowState.Doing:
-                    BaseWorkflowService.ProcessPauseWorkAction(state);
+
+                    if (pauseExecution)
+                    {
+                        BaseWorkflowService.ProcessPauseWorkAction(state);
+                    }
+                    else
+                    {
+                        BaseWorkflowService.ProcessEndWorkAction(state);
+                    }
                     success = true;
                     break;
                 case WorkflowState.Waiting:
-                    BaseWorkflowService.ProcessEndWorkAction(state);
+                    BaseWorkflowService.ProcessCommenceWorkAction(state);
                     success = true;
                     break;
                 case WorkflowState.Done:
