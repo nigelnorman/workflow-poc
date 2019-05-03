@@ -8,7 +8,11 @@ namespace WorkflowPocApp.Models
     {
         public int Id { get; set; }
 
+        public int ProductId { get; set; }
+
         public string Status { get; set; }
+
+        public string StatusDisplay { get; set; }
 
         public List<GenericExampleTaskModel> Tasks { get; set; } = new List<GenericExampleTaskModel>();
     }

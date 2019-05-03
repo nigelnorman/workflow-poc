@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WorkflowPocEngine.Statuses
+namespace WorkflowPocEngine.States
 {
-    public enum WorkflowStatus
+    public enum WorkflowState
     {
         None = 0,
         ToDo = 1,

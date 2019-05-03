@@ -9,5 +9,6 @@ namespace WorkflowPocApp.Models
         None = 0,
         Administrative = 1,
         Communicative = 2,
+        Preliminary = 3,
     }
 }

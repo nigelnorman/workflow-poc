@@ -1,7 +1,7 @@
 ﻿using Stateless;
 using System;
 using WorkflowPocEngine.Actions;
-using WorkflowPocEngine.Statuses;
+using WorkflowPocEngine.States;
 
 namespace WorkflowPocEngine
 {
@@ -13,64 +13,64 @@ namespace WorkflowPocEngine
         }
 
         // builds a state machine instanced at the current workflow state
-        public static StateMachine<WorkflowStatus, WorkflowAction> BuildMachine(WorkflowStatus status)
+        public static StateMachine<WorkflowState, WorkflowAction> BuildMachine(WorkflowState state)
         {
             
-            var machine = new StateMachine<WorkflowStatus, WorkflowAction>(
-                () => status,
-                s => status = s
+            var machine = new StateMachine<WorkflowState, WorkflowAction>(
+                () => state,
+                s => state = s
                 );
 
             machine.OnTransitioned(t => LogTransition(t));
 
-            machine.Configure(WorkflowStatus.ToDo)
-                .Permit(WorkflowAction.Start, WorkflowStatus.Doing)
-                .Permit(WorkflowAction.Pause, WorkflowStatus.Waiting)
-                .Permit(WorkflowAction.Cancel, WorkflowStatus.Done);
+            machine.Configure(WorkflowState.ToDo)
+                .Permit(WorkflowAction.Start, WorkflowState.Doing)
+                .Permit(WorkflowAction.Pause, WorkflowState.Waiting)
+                .Permit(WorkflowAction.Cancel, WorkflowState.Done);
 
-            machine.Configure(WorkflowStatus.Doing)
-                .Permit(WorkflowAction.End, WorkflowStatus.Done)
-                .Permit(WorkflowAction.Pause, WorkflowStatus.Waiting)
-                .Permit(WorkflowAction.Cancel, WorkflowStatus.Done);
+            machine.Configure(WorkflowState.Doing)
+                .Permit(WorkflowAction.End, WorkflowState.Done)
+                .Permit(WorkflowAction.Pause, WorkflowState.Waiting)
+                .Permit(WorkflowAction.Cancel, WorkflowState.Done);
 
-            machine.Configure(WorkflowStatus.Waiting)
-                .Permit(WorkflowAction.Start, WorkflowStatus.Doing)
-                .Permit(WorkflowAction.End, WorkflowStatus.Done)
-                .Permit(WorkflowAction.Cancel, WorkflowStatus.Done);
+            machine.Configure(WorkflowState.Waiting)
+                .Permit(WorkflowAction.Start, WorkflowState.Doing)
+                .Permit(WorkflowAction.End, WorkflowState.Done)
+                .Permit(WorkflowAction.Cancel, WorkflowState.Done);
 
-            machine.Configure(WorkflowStatus.Done)
-                .Permit(WorkflowAction.Start, WorkflowStatus.Doing);
+            machine.Configure(WorkflowState.Done)
+                .Permit(WorkflowAction.Start, WorkflowState.Doing);
 
             return machine;
         }
 
-        public static void ProcessCommenceWorkAction(WorkflowStatus status)
+        public static void ProcessCommenceWorkAction(WorkflowState status)
         {
             ProcessAction(status, WorkflowAction.Start);
         }
 
-        public static void ProcessPauseWorkAction(WorkflowStatus status)
+        public static void ProcessPauseWorkAction(WorkflowState status)
         {
             ProcessAction(status, WorkflowAction.Pause);
         }
 
-        public static void ProcessEndWorkAction(WorkflowStatus status)
+        public static void ProcessEndWorkAction(WorkflowState status)
         {
             ProcessAction(status, WorkflowAction.End);
         }
 
-        public static void ProcessCancellationAction(WorkflowStatus status)
+        public static void ProcessCancellationAction(WorkflowState status)
         {
             ProcessAction(status, WorkflowAction.Cancel);
         }
 
-        private static void ProcessAction(WorkflowStatus currentStatus, WorkflowAction action)
+        private static void ProcessAction(WorkflowState currentStatus, WorkflowAction action)
         {
             var machine = BuildMachine(currentStatus);
             machine.Fire(action);
         }
 
-        private static void LogTransition(StateMachine<WorkflowStatus, WorkflowAction>.Transition transition)
+        private static void LogTransition(StateMachine<WorkflowState, WorkflowAction>.Transition transition)
         {
             Console.WriteLine($"Workflow transitioned from {transition.Source} => {transition.Destination} via {transition.Trigger}.");
         }
