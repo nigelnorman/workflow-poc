@@ -44,29 +44,29 @@ namespace WorkflowPocEngine
             return machine;
         }
 
-        public static void ProcessCommenceWorkAction(WorkflowState status)
+        public static void ProcessCommenceWorkAction(WorkflowState state)
         {
-            ProcessAction(status, WorkflowAction.Start);
+            ProcessAction(state, WorkflowAction.Start);
         }
 
-        public static void ProcessPauseWorkAction(WorkflowState status)
+        public static void ProcessPauseWorkAction(WorkflowState state)
         {
-            ProcessAction(status, WorkflowAction.Pause);
+            ProcessAction(state, WorkflowAction.Pause);
         }
 
-        public static void ProcessEndWorkAction(WorkflowState status)
+        public static void ProcessEndWorkAction(WorkflowState state)
         {
-            ProcessAction(status, WorkflowAction.End);
+            ProcessAction(state, WorkflowAction.End);
         }
 
-        public static void ProcessCancellationAction(WorkflowState status)
+        public static void ProcessCancellationAction(WorkflowState state)
         {
-            ProcessAction(status, WorkflowAction.Cancel);
+            ProcessAction(state, WorkflowAction.Cancel);
         }
 
-        private static void ProcessAction(WorkflowState currentStatus, WorkflowAction action)
+        private static void ProcessAction(WorkflowState currentState, WorkflowAction action)
         {
-            var machine = BuildMachine(currentStatus);
+            var machine = BuildMachine(currentState);
             machine.Fire(action);
         }
 
