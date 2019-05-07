@@ -13,7 +13,7 @@ namespace WorkflowPocEngine
         }
 
         // builds a state machine instanced at the current workflow state
-        public static StateMachine<WorkflowState, WorkflowAction> BuildMachine(WorkflowState state)
+        private static StateMachine<WorkflowState, WorkflowAction> BuildMachine(WorkflowState state)
         {
             
             var machine = new StateMachine<WorkflowState, WorkflowAction>(
